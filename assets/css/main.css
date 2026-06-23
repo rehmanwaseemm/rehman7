@@ -24,9 +24,10 @@
   --accent: #f7e7ff; /* very pale lilac for panels */
   --text: #3e3146; /* dark plum for text */
 
-  /* Paper texture background (generated image). The path is relative to
-     the CSS file and will resolve to website/assets/images/paper-texture.png. */
-  --paper: url('../images/paper-texture.png');
+  /* Paper texture background (generated image). Previously used for an aged paper
+     effect. Replaced with a solid colour because the user requested a
+     purple‑themed background without any texture. */
+  --paper: none;
 
   /* Memory note background tints for individual pop‑ups. */
   --note1-bg: rgba(142, 68, 173, 0.15);
@@ -48,12 +49,8 @@ body {
   font-family: 'Open Sans', system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
   line-height: 1.6;
-  /* Apply the parchment background. Use fixed attachment so the texture stays
-     in place while scrolling. */
-  background-image: var(--paper);
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
+  /* Apply a solid lavender background instead of a parchment texture. */
+  background: var(--secondary);
   color: var(--text);
 }
 
@@ -321,9 +318,8 @@ blockquote cite {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-image: var(--paper);
-  background-size: cover;
-  background-position: center;
+  /* Match the solid site background on the password page. */
+  background: var(--secondary);
 }
 
 .password-box {
