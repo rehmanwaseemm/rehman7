@@ -19,10 +19,10 @@
 :root {
   /* Primary palette inspired by twilight – soft purples and pinks
      reminiscent of an evening sky. */
-  --primary: #8e44ad; /* deep purple */
-  --secondary: #e6addb; /* light lavender pink */
-  --accent: #f7e7ff; /* very pale lilac for panels */
-  --text: #3e3146; /* dark plum for text */
+  --primary: #6a1b9a; /* royal purple for headings, accents and buttons */
+  --secondary: #f3e5f5; /* very light lavender for card backgrounds */
+  --accent: #ffffff; /* pure white for highlights */
+  --text: #1f1a24; /* dark plum for high contrast text */
 
   /* Paper texture background (generated image). Previously used for an aged paper
      effect. Replaced with a solid colour because the user requested a
@@ -30,12 +30,12 @@
   --paper: none;
 
   /* Memory note background tints for individual pop‑ups. */
-  --note1-bg: rgba(142, 68, 173, 0.15);
-  --note2-bg: rgba(230, 173, 219, 0.15);
-  --note3-bg: rgba(190, 125, 217, 0.15);
-  --note4-bg: rgba(210, 155, 226, 0.15);
-  --note5-bg: rgba(173, 100, 199, 0.15);
-  --note6-bg: rgba(221, 160, 221, 0.15);
+  --note1-bg: rgba(106, 27, 154, 0.15);
+  --note2-bg: rgba(243, 229, 245, 0.3);
+  --note3-bg: rgba(142, 68, 173, 0.2);
+  --note4-bg: rgba(173, 100, 199, 0.2);
+  --note5-bg: rgba(189, 131, 208, 0.25);
+  --note6-bg: rgba(221, 160, 221, 0.25);
 }
 
 html {
@@ -49,8 +49,9 @@ body {
   font-family: 'Open Sans', system-ui, -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
   line-height: 1.6;
-  /* Apply a solid lavender background instead of a parchment texture. */
-  background: var(--secondary);
+  /* Apply a gradient background that transitions from our deep purple to
+     lavender. This creates a cosy twilight effect without any texture. */
+  background: linear-gradient(135deg, var(--primary) 0%, #9653b9 50%, var(--secondary) 100%);
   color: var(--text);
 }
 
@@ -76,10 +77,10 @@ body {
   position: sticky;
   top: 0;
   z-index: 1000;
-  backdrop-filter: blur(6px);
-  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(8px);
+  background: rgba(255, 255, 255, 0.2);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-  border-bottom: 1px solid var(--secondary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 .site-nav {
@@ -168,7 +169,12 @@ button:focus-visible {
 main {
   max-width: 72rem;
   margin: 2rem auto;
-  padding: 0 1rem;
+  padding: 2rem 1rem;
+  /* Place the main content on a slightly opaque panel for contrast against
+     the gradient backdrop. */
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 section {
@@ -206,10 +212,13 @@ section li {
 }
 
 /* Memory jar grid */
+/* The memory jar grid becomes a flexible layout that wraps elegantly
+   across screen sizes. Hearts are evenly spaced and never overlap. */
 .jar-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(4rem, 1fr));
-  gap: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
   margin-top: 1rem;
 }
 
@@ -220,8 +229,9 @@ section li {
   border: none;
   color: #fff;
   font-size: 1.6rem;
-  height: 3.5rem;
-  width: 3.5rem;
+  /* Increase the size slightly for better mobile tap targets */
+  height: 4rem;
+  width: 4rem;
   border-radius: 50%;
   display: flex;
   align-items: center;
