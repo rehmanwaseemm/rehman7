@@ -10,13 +10,31 @@
   styles for keyboard users and respects reduced‑motion preferences.
 */
 
-/* Theme colours */
+/* Import Google Fonts for a more romantic feel. Dancing Script evokes
+   handwritten love letters, while Open Sans provides a clean base for
+   body text. These fonts are loaded asynchronously by the browser. */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Open+Sans:wght@400;600&display=swap');
+
+/* Theme colours and assets */
 :root {
-  --rose: #b92b58;
-  --rose-dark: #7a1636;
-  --cream: #fff7f0;
-  --panel: rgba(255, 255, 255, 0.85);
-  --text: #333;
+  /* Primary palette inspired by twilight – soft purples and pinks
+     reminiscent of an evening sky. */
+  --primary: #8e44ad; /* deep purple */
+  --secondary: #e6addb; /* light lavender pink */
+  --accent: #f7e7ff; /* very pale lilac for panels */
+  --text: #3e3146; /* dark plum for text */
+
+  /* Paper texture background (generated image). The path is relative to
+     the CSS file and will resolve to website/assets/images/paper-texture.png. */
+  --paper: url('../images/paper-texture.png');
+
+  /* Memory note background tints for individual pop‑ups. */
+  --note1-bg: rgba(142, 68, 173, 0.15);
+  --note2-bg: rgba(230, 173, 219, 0.15);
+  --note3-bg: rgba(190, 125, 217, 0.15);
+  --note4-bg: rgba(210, 155, 226, 0.15);
+  --note5-bg: rgba(173, 100, 199, 0.15);
+  --note6-bg: rgba(221, 160, 221, 0.15);
 }
 
 html {
@@ -26,10 +44,16 @@ html {
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  /* Use Open Sans for body text and fall back to system sans‑serif fonts. */
+  font-family: 'Open Sans', system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
   line-height: 1.6;
-  background: var(--cream);
+  /* Apply the parchment background. Use fixed attachment so the texture stays
+     in place while scrolling. */
+  background-image: var(--paper);
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   color: var(--text);
 }
 
@@ -55,9 +79,10 @@ body {
   position: sticky;
   top: 0;
   z-index: 1000;
-  backdrop-filter: blur(8px);
-  background: var(--panel);
+  backdrop-filter: blur(6px);
+  background: rgba(255, 255, 255, 0.5);
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border-bottom: 1px solid var(--secondary);
 }
 
 .site-nav {
@@ -68,13 +93,16 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.25rem;
 }
 
 .brand {
   font-weight: 700;
-  color: var(--rose);
+  color: var(--primary);
   text-decoration: none;
-  font-size: 1.25rem;
+  font-size: 1.5rem;
+  font-family: 'Dancing Script', cursive;
 }
 
 .menu {
@@ -86,9 +114,9 @@ body {
 }
 
 .menu a {
-  color: var(--rose-dark);
+  color: var(--primary);
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 /* Hamburger toggle appears on small screens */
@@ -96,8 +124,8 @@ body {
   display: none;
   background: none;
   border: none;
-  font-size: 1.5rem;
-  color: var(--rose-dark);
+  font-size: 2rem;
+  color: var(--primary);
   cursor: pointer;
 }
 
@@ -151,15 +179,17 @@ section {
 }
 
 section h2 {
-  font-size: 2rem;
-  color: var(--rose-dark);
+  font-size: 2.5rem;
+  color: var(--primary);
   margin-top: 0;
   margin-bottom: 0.75rem;
+  font-family: 'Dancing Script', cursive;
 }
 
 section p,
 section li {
   font-size: 1rem;
+  font-family: 'Open Sans', sans-serif;
 }
 
 /* Footer */
@@ -186,18 +216,23 @@ section li {
   margin-top: 1rem;
 }
 
+
+/* Memory notes: each heart is tinted differently to reflect
+   unique memories. They grow slightly on hover for an inviting feel. */
 .memory-note {
-  background: var(--rose);
   border: none;
   color: #fff;
-  font-size: 1.5rem;
-  height: 3rem;
+  font-size: 1.6rem;
+  height: 3.5rem;
+  width: 3.5rem;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: transform 0.2s;
+  transition: transform 0.25s;
+  background: var(--primary);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .memory-note:hover,
@@ -205,16 +240,50 @@ section li {
   transform: scale(1.1);
 }
 
+/* Specific tints for each note; assign these classes in HTML */
+.note-1 {
+  background: var(--primary);
+}
+.note-2 {
+  background: var(--secondary);
+}
+.note-3 {
+  background: #a678b2; /* intermediate purple */
+}
+.note-4 {
+  background: #c193cd; /* soft mauve */
+}
+
+.note-5 {
+  background: #ad64c7;
+}
+.note-6 {
+  background: #d69ad9;
+}
+
 dialog {
   border: none;
   border-radius: 0.75rem;
-  max-width: 28rem;
-  padding: 1.5rem;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  max-width: 32rem;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  animation: fadeIn 0.3s ease-out both;
 }
 
 dialog::backdrop {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Quotation styling */
@@ -227,53 +296,63 @@ dialog::backdrop {
   smaller font size and a lighter rose colour.
 */
 blockquote {
-  margin: 1.5rem 0;
-  padding-left: 1rem;
-  border-left: 3px solid var(--rose-dark);
+  margin: 2rem 0;
+  padding: 1rem 1.5rem;
+  border-left: 4px solid var(--primary);
   font-style: italic;
-  color: var(--rose-dark);
+  color: var(--primary);
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 0.5rem;
+  font-family: 'Dancing Script', cursive;
 }
 
 blockquote cite {
   display: block;
   margin-top: 0.5rem;
   font-size: 0.875rem;
-  color: var(--rose);
+  color: var(--secondary);
+  font-family: 'Open Sans', sans-serif;
 }
 
+/* Password page styles */
 /* Password page styles */
 .password-container {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--cream);
+  background-image: var(--paper);
+  background-size: cover;
+  background-position: center;
 }
 
 .password-box {
-  background: var(--panel);
-  padding: 2rem;
-  border-radius: 0.75rem;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.9);
+  padding: 3rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
   text-align: center;
 }
 
 .password-box h1 {
   margin-top: 0;
-  margin-bottom: 1rem;
-  color: var(--rose-dark);
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+  font-family: 'Dancing Script', cursive;
+  font-size: 2.5rem;
 }
 
 .password-box input[type="password"] {
   width: 100%;
   padding: 0.75rem;
   margin-bottom: 1rem;
-  border: 1px solid var(--rose-dark);
+  border: 1px solid var(--primary);
   border-radius: 0.5rem;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .password-box button {
-  background: var(--rose);
+  background: var(--primary);
   color: #fff;
   border: none;
   padding: 0.75rem 1.25rem;
@@ -284,5 +363,5 @@ blockquote cite {
 }
 
 .password-box button:hover {
-  background: var(--rose-dark);
+  background: #6c3483;
 }
