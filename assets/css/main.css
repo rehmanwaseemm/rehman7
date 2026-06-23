@@ -1,0 +1,288 @@
+/*
+  main.css
+  Styling for the Batman & My Moonlight website.
+
+  The design takes inspiration from the original love site but
+  improves on accessibility and mobile responsiveness. It uses
+  a simple colour palette of rose and cream, provides a sticky
+  header with a hamburger menu on small screens, and defines
+  typographic hierarchy for sections. It also includes focus
+  styles for keyboard users and respects reduced‑motion preferences.
+*/
+
+/* Theme colours */
+:root {
+  --rose: #b92b58;
+  --rose-dark: #7a1636;
+  --cream: #fff7f0;
+  --panel: rgba(255, 255, 255, 0.85);
+  --text: #333;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  line-height: 1.6;
+  background: var(--cream);
+  color: var(--text);
+}
+
+/* Skip link for screen reader and keyboard users */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  background: var(--rose);
+  color: #fff;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  z-index: 2000;
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+}
+
+/* Header with navigation */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  backdrop-filter: blur(8px);
+  background: var(--panel);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.site-nav {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.brand {
+  font-weight: 700;
+  color: var(--rose);
+  text-decoration: none;
+  font-size: 1.25rem;
+}
+
+.menu {
+  list-style: none;
+  display: flex;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+}
+
+.menu a {
+  color: var(--rose-dark);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* Hamburger toggle appears on small screens */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: var(--rose-dark);
+  cursor: pointer;
+}
+
+/* Accessibility: focus outlines */
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--rose-dark);
+  outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: inline-block;
+  }
+  .menu {
+    position: absolute;
+    right: 1rem;
+    top: 4rem;
+    flex-direction: column;
+    width: min(18rem, calc(100vw - 2rem));
+    background: var(--panel);
+    border-radius: 0.75rem;
+    padding: 1rem;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    display: none;
+  }
+  .menu.is-open {
+    display: flex;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Main content area */
+main {
+  max-width: 72rem;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+section {
+  margin-bottom: 3rem;
+}
+
+section h2 {
+  font-size: 2rem;
+  color: var(--rose-dark);
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+section p,
+section li {
+  font-size: 1rem;
+}
+
+/* Footer */
+.site-footer {
+  max-width: 72rem;
+  margin: 4rem auto 2rem;
+  padding: 1rem 1rem 2rem;
+  text-align: center;
+  color: var(--rose-dark);
+}
+
+.site-footer nav {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Memory jar grid */
+.jar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(4rem, 1fr));
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.memory-note {
+  background: var(--rose);
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  height: 3rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.memory-note:hover,
+.memory-note:focus {
+  transform: scale(1.1);
+}
+
+dialog {
+  border: none;
+  border-radius: 0.75rem;
+  max-width: 28rem;
+  padding: 1.5rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+/* Quotation styling */
+/*
+  Blockquote elements are used throughout the site to highlight
+  romantic quotes from Franz Kafka. The styling gives them a
+  distinctive look with a rose‑coloured bar on the left and
+  italicised text to evoke the feel of a handwritten letter. The
+  cite element is displayed as a block beneath the quote, with a
+  smaller font size and a lighter rose colour.
+*/
+blockquote {
+  margin: 1.5rem 0;
+  padding-left: 1rem;
+  border-left: 3px solid var(--rose-dark);
+  font-style: italic;
+  color: var(--rose-dark);
+}
+
+blockquote cite {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--rose);
+}
+
+/* Password page styles */
+.password-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--cream);
+}
+
+.password-box {
+  background: var(--panel);
+  padding: 2rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.password-box h1 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: var(--rose-dark);
+}
+
+.password-box input[type="password"] {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--rose-dark);
+  border-radius: 0.5rem;
+}
+
+.password-box button {
+  background: var(--rose);
+  color: #fff;
+  border: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+
+.password-box button:hover {
+  background: var(--rose-dark);
+}
