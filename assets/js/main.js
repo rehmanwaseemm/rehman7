@@ -15,30 +15,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Play beep music using Web Audio API when requested
-  const playBeep = () => {
-    try {
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      const ctx = new AudioContext();
-      const oscillator = ctx.createOscillator();
-      const gain = ctx.createGain();
-      oscillator.type = 'sine';
-      oscillator.frequency.setValueAtTime(440, ctx.currentTime);
-      oscillator.connect(gain);
-      gain.connect(ctx.destination);
-      oscillator.start();
-      // fade out after 2 seconds
-      gain.gain.setValueAtTime(1, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 2);
-      oscillator.stop(ctx.currentTime + 2);
-    } catch (err) {
-      // fallback to alert if audio context fails
-      console.log('Audio not supported', err);
-    }
-  };
+  // Handle audio playback. When the play button is clicked, play or
+  // pause the background music. This uses a standard <audio> element
+  // referenced by the #bg-audio ID and allows the user to control
+  // playback without creating new AudioContexts on each click.
   const playBtn = document.querySelector('#play-music');
-  if (playBtn) {
-    playBtn.addEventListener('click', playBeep);
+  if (playBtn && audioPlayer) {
+    playBtn.addEventListener('click', () => {
+      if (audioPlayer.paused) {
+        audioPlayer.play().catch((err) => {
+          console.log('Audio playback failed', err);
+        });
+        playBtn.textContent = 'Pause our tune';
+      } else {
+        audioPlayer.pause();
+        playBtn.textContent = 'Play our tune';
+      }
+    });
   }
 
   // Memory jar modal
@@ -51,6 +44,17 @@ document.addEventListener('DOMContentLoaded', () => {
     note.addEventListener('click', () => {
       if (dialog && dialogText) {
         dialogText.textContent = note.dataset.memory || '';
+        // Set the dialog background based on the note's class. We look for
+        // note-1, note-2, etc. and map them to CSS variables defined in
+        // :root (--note1-bg, --note2-bg, etc.).
+        const classes = Array.from(note.classList);
+        const noteClass = classes.find((cls) => cls.startsWith('note-'));
+        if (noteClass) {
+          const rootStyle = getComputedStyle(document.documentElement);
+          const bgVar = '--' + noteClass.replace('note-', 'note') + '-bg';
+          const bgColor = rootStyle.getPropertyValue(bgVar) || 'rgba(255,255,255,0.8)';
+          dialog.style.background = bgColor.trim();
+        }
         dialog.showModal();
       }
     });
